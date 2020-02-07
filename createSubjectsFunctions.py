@@ -42,7 +42,7 @@ def sourceExtractImage(data, bkgArr=None, sortType='center', verbose=False,
     """Extract sources from data array and return enumerated objects sorted
     smallest to largest, and the segmentation map provided by source extractor
     """
-    data = data.byteswap().newbyteorder()
+    data = np.array(data).byteswap().newbyteorder()
     if bkgArr is None:
         bkgArr = np.zeros(data.shape)
     o = sep.extract(data, kwargs.pop('threshold', 0.05), segmentation_map=True,
