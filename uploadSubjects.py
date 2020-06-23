@@ -1,6 +1,7 @@
 from panoptes_client import SubjectSet, Subject, Project, Panoptes
 import getpass
 import os
+from os.path import join
 import sys
 import time
 import json
@@ -104,26 +105,25 @@ def main(production=False):
 
 
 def create_subject_set(folder_name, set_name='test_subject_set'):
-    nSubjects = len([
-        f for f in os.listdir(folder_name)
-        if '.DS' not in f
-    ])//4
     subject_names = [
         i.group(1)
         for i in (
             re.match(r'image_(.*?).png', f)
-            for f in os.listdir('affirmation_subjects')
+            for f in os.listdir(folder_name)
         )
         if i is not None
     ]
     files = [
-        (
-            '{}/image_{}.png'.format(folder_name, name),
-            '{}/difference_{}.json'.format(folder_name, name),
-            '{}/model_{}.json'.format(folder_name, name),
-            '{}/metadata_{}.json'.format(folder_name, name),
-        )
-        for name in subject_names
+        [
+            join(folder_name, file_name)
+            for file_name in (
+                'image_{}.png'.format(subject_name),
+                'difference_{}.json'.format(subject_name),
+                'model_{}.json'.format(subject_name),
+                'metadata_{}.json'.format(subject_name),
+            )
+        ]
+        for subject_name in subject_names
     ]
     assert all(os.path.exists(j) for i in files for j in i), 'Missing files!'
     uname = input('Enter your username: ')

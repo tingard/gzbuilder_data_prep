@@ -37,7 +37,7 @@ def makeEllipseMask(e, x, y, threshold=0.01):
         threshold
 
 
-def sourceExtractImage(data, bkgArr=None, sortType='center', verbose=False,
+def sourceExtractImage(data, bkgArr=None, sortType='centre', verbose=False,
                        **kwargs):
     """Extract sources from data array and return enumerated objects sorted
     smallest to largest, and the segmentation map provided by source extractor
@@ -54,17 +54,17 @@ def sourceExtractImage(data, bkgArr=None, sortType='center', verbose=False,
             enumerate(o[0]), key=lambda src: src[1]['npix']
         )
         return sizeSortedObjects, o[1]
-    elif sortType == 'center':
+    elif sortType == 'centre':
         if verbose:
-            print('Sorting extracted objects by radius from center')
-        centerSortedObjects = sorted(
+            print('Sorting extracted objects by radius from centre')
+        centreSortedObjects = sorted(
             enumerate(o[0]),
             key=lambda src: (
                 (src[1]['x'] - data.shape[0] / 2)**2
                 + (src[1]['y'] - data.shape[1] / 2)**2
             )
         )[::-1]
-        return centerSortedObjects, o[1]
+        return centreSortedObjects, o[1]
 
 
 def maskArr(arrIn, segMap, maskID):
